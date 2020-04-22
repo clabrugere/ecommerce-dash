@@ -1,4 +1,4 @@
-# Dash application
+# Sales Dash application
 
 This is a small project showing capabilities of Plotly Dash. It consists in a simple example of an e-commerce dashboard to monitor sales with some business KPIs and visualization based on transactional data. It is based on the public data [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/olistbr/brazilian-ecommerce) available on Kaggle.
 
@@ -9,9 +9,9 @@ The dataset contains around 100k transactional data about orders on a Brazilan e
 ## Getting Started
 
 Just clone this repository, navigate to the directory and execute the command:
-'''
+```
 python app.py
-'''
+```
 
 ### Requirements
 
