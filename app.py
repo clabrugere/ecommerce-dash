@@ -261,6 +261,7 @@ def make_timeserie(start_date, end_date, payment_type, product_category, state):
         'order_id': 'nunique'
     }).reset_index()
     
+    predictions = None
     if make_predictions:
         predictions = model.predict(dff['order_purchase_timestamp'], dff['payment_value'], look_ahead=15)
 
