@@ -4,9 +4,9 @@ import os
 from pathlib2 import Path
 
 DIR_ROOT = str(Path(os.path.abspath(__file__)).parents[1])
-DIR_DATA = os.path.join(DIR_ROOT, 'data\\')
-DIR_DATA_RAW = os.path.join(DIR_DATA, 'raw\\')
-DIR_DATA_PROCESSED = os.path.join(DIR_DATA, 'processed\\')
+DIR_DATA = os.path.join(DIR_ROOT, 'data/')
+DIR_DATA_RAW = os.path.join(DIR_DATA, 'raw/')
+DIR_DATA_PROCESSED = os.path.join(DIR_DATA, 'processed/')
 
 DATA_FILES = {
     'customer': 'olist_customers_dataset.csv',
