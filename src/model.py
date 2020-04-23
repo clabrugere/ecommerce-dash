@@ -10,7 +10,7 @@ def predict(dates, x, look_ahead):
     forecast_end = 15 + x.shape[0] - 1
     
     model = ARIMA(x, order=(9,0,1))
-    model_fit = model.fit()
+    model_fit = model.fit(method='css') # conditional sum of squares likelihood is maximized, faster as no Kalmann filter needs to be designed and the full maximum likehood is not computed
     
     predictions, stderr, ci = model_fit.forecast(look_ahead)
     

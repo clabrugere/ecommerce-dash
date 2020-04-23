@@ -7,7 +7,7 @@ from . import config
 
 
 # TODO moving average as principal line
-def sales_timeserie(df, predictions=None):
+def sales_timeserie(df, predictions, plot_predictions=False):
     df_rolling_mean = df.set_index('order_purchase_timestamp')[['payment_value', 'order_id']].rolling(
         30).mean().dropna().reset_index()
     df_rolling_mean = df_rolling_mean.round(2)
@@ -35,7 +35,7 @@ def sales_timeserie(df, predictions=None):
         secondary_y=False,
     )
     
-    if predictions is not None:
+    if plot_predictions:
         fig.add_trace(
             go.Scatter(
                 x=predictions['date'], y=predictions['ci_high'],

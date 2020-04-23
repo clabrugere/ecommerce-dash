@@ -15,6 +15,7 @@ app = dash.Dash(
     meta_tags=[{'name': 'viewport', 'content': 'width=device-width'}]
 )
 server = app.server
+
 app.config.suppress_callback_exceptions = True
 
 # load data
@@ -22,6 +23,11 @@ df = pd.read_csv(
     config.get_processed_filename(config.DATA_FILES['order'])
 )
 df[config.COLUMN_DATE] = df[config.COLUMN_DATE].apply(pd.to_datetime)
+
+# Compute the forecast only once
+dff = df[df['order_status'].isin(config.ORDER_STATUS_CONSO)]
+dff = dff.groupby(pd.Grouper(key='order_purchase_timestamp', freq='1D'))['payment_value'].sum().reset_index()
+predictions = model.predict(dff['order_purchase_timestamp'], dff['payment_value'], look_ahead=15)
 
 # -------------------------------------------------------------------------------
 # layout
@@ -260,12 +266,8 @@ def make_timeserie(start_date, end_date, payment_type, product_category, state):
         'payment_value': 'sum',
         'order_id': 'nunique'
     }).reset_index()
-    
-    predictions = None
-    if make_predictions:
-        predictions = model.predict(dff['order_purchase_timestamp'], dff['payment_value'], look_ahead=15)
 
-    fig = plot.sales_timeserie(dff, predictions)
+    fig = plot.sales_timeserie(dff, predictions, make_predictions)
 
     return fig
 
