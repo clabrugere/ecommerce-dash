@@ -4,7 +4,7 @@ This is a small project showing capabilities of Plotly Dash. It consists in a si
 
 The dataset contains around 100k transactional data about orders on a Brazilan e-commerce platform named Olist. Details on the dataset can be found on Kaggle.
 
-[alt text](/screenshot/test.gif "Demo")
+![alt text](/screenshot/test.gif "Demo")
 
 ## Getting Started
 
