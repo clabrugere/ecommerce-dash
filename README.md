@@ -20,6 +20,7 @@ python app.py
 * pandas
 * dash
 * plotly
+* statsmodels
 
 ## License
 
