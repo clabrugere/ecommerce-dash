@@ -1,10 +1,10 @@
 # Sales Dash application
 
-This is a small project showing capabilities of Plotly Dash. It consists in a simple example of an e-commerce dashboard to monitor sales with some business KPIs and visualization based on transactional data. It is based on the public data [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/olistbr/brazilian-ecommerce) available on Kaggle.
+This is a small project showing capabilities of Plotly Dash. It consists in a simple example of an e-commerce dashboard to monitor sales with some business KPIs and visualization based on transactional data with a simple ARMA sales 15 days look-ahead forecast. It is based on the public data [Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/olistbr/brazilian-ecommerce) available on Kaggle.
 
 The dataset contains around 100k transactional data about orders on a Brazilan e-commerce platform named Olist. Details on the dataset can be found on Kaggle.
 
-![alt text](/screenshot/test.gif "Demo")
+[alt text](/screenshot/test.gif "Demo")
 
 ## Getting Started
 

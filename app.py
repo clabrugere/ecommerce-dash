@@ -7,7 +7,7 @@ import dash_table as dt
 import numpy as np
 import pandas as pd
 from dash.dependencies import Input, Output
-from src import config, data, plot
+from src import config, data, plot, model
 
 # Create app
 app = dash.Dash(
@@ -249,13 +249,22 @@ def update_kpi_order_statisfaction(start_date, end_date, payment_type, product_c
 )
 def make_timeserie(start_date, end_date, payment_type, product_category, state):
     dff = data.filter_dataframe(df, start_date, end_date, payment_type, product_category, customer_state=state)
+    
+    if dff.equals(df):
+        make_predictions = True
+    else:
+        make_predictions = False
+    
     dff = dff[dff['order_status'].isin(config.ORDER_STATUS_CONSO)]
     dff = dff.groupby(pd.Grouper(key='order_purchase_timestamp', freq='1D')).agg({
         'payment_value': 'sum',
         'order_id': 'nunique'
     }).reset_index()
+    
+    if make_predictions:
+        predictions = model.predict(dff['order_purchase_timestamp'], dff['payment_value'], look_ahead=15)
 
-    fig = plot.sales_timeserie(dff)
+    fig = plot.sales_timeserie(dff, predictions)
 
     return fig
 

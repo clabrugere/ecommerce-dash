@@ -7,7 +7,7 @@ from . import config
 
 
 # TODO moving average as principal line
-def sales_timeserie(df):
+def sales_timeserie(df, predictions=None):
     df_rolling_mean = df.set_index('order_purchase_timestamp')[['payment_value', 'order_id']].rolling(
         30).mean().dropna().reset_index()
     df_rolling_mean = df_rolling_mean.round(2)
@@ -34,7 +34,43 @@ def sales_timeserie(df):
         ),
         secondary_y=False,
     )
-
+    
+    if predictions is not None:
+        fig.add_trace(
+            go.Scatter(
+                x=predictions['date'], y=predictions['ci_high'],
+                mode='lines',
+                fill=None,
+                line_width=0,
+                name='Forecast 95% CI',
+                showlegend=False,
+            ),
+            secondary_y=False,
+        )
+        fig.add_trace(
+            go.Scatter(
+                x=predictions['date'], y=predictions['ci_low'],
+                mode='lines',
+                fill='tonexty',
+                fillcolor='rgba(173,216,230,0.2)',
+                line_width=0,
+                name='Forecast 95% CI',
+                showlegend=False,
+            ),
+            secondary_y=False,
+        )
+        fig.add_trace(
+            go.Scatter(
+                x=predictions['date'], y=predictions['forecast'],
+                mode='lines',
+                line_color='#add8e6',
+                line_dash='dot',
+                marker_opacity=.5,
+                name='15 days forecast'
+            ),
+            secondary_y=False,
+        )
+        
     fig.add_trace(
         go.Scatter(
             x=df_rolling_mean['order_purchase_timestamp'], y=df_rolling_mean['payment_value'],

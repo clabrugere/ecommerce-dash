@@ -7,6 +7,8 @@ from . import config
 
 
 def consolidate_dataset():
+    '''helper function to generate the dataset. It is not used in the application.
+    '''
     # load datasets
     df_order = pd.read_csv(config.get_raw_filename(config.DATA_FILES['order']))
     df_order_item = pd.read_csv(config.get_raw_filename(config.DATA_FILES['order_item']))
@@ -19,19 +21,15 @@ def consolidate_dataset():
         config.get_raw_filename(config.DATA_FILES['product_category_translation']))
     df_seller = pd.read_csv(config.get_raw_filename(config.DATA_FILES['seller']))
     df_states = pd.read_csv(config.STATES)
-    # df_geolocation = pd.read_csv(config.get_raw_filename(config.DATA_FILES['geolocation']))
 
     # filter data to keep only 2018
-    df_order = df_order[df_order['order_purchase_timestamp'] >= '2018-01-01']
+    df_order = df_order[(df_order['order_purchase_timestamp'] >= '2018-01-01') & (df_order['order_purchase_timestamp'] <= '2018-08-09')]
     df_order_item = df_order_item[df_order_item['order_id'].isin(df_order['order_id'].unique())]
     df_order_payment = df_order_payment[df_order_payment['order_id'].isin(df_order['order_id'].unique())]
     df_order_review = df_order_review[df_order_review['order_id'].isin(df_order['order_id'].unique())]
 
     df_customer = df_customer[df_customer['customer_id'].isin(df_order['customer_id'].unique())]
     df_customer = df_customer.drop('customer_unique_id', axis=1)
-
-    # df_geolocation = df_geolocation[df_geolocation['geolocation_zip_code_prefix'].isin(df_customer['customer_zip_code_prefix'].unique())]
-    # df_geolocation = df_geolocation[['geolocation_zip_code_prefix', 'geolocation_lat', 'geolocation_lng']]
 
     df_order_review = df_order_review[['order_id', 'review_score']]
     df_product = df_product[df_product['product_id'].isin(df_order_item['product_id'].unique())]
@@ -49,7 +47,6 @@ def consolidate_dataset():
     df_order = df_order.merge(df_order_review, how='left', on='order_id')
     df_order = df_order.merge(df_product, how='left', on='product_id')
     df_order = df_order.merge(df_seller, how='left', on='seller_id')
-    # df_order = df_order.merge(df_geolocation, how='left', left_on='customer_zip_code_prefix', right_on='geolocation_zip_code_prefix')
     df_order = df_order.merge(df_states, how='left', left_on='customer_state', right_on='state_code',
                               suffixes=('', '_customer'))
 
