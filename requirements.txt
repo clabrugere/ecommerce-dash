@@ -1,7 +1,7 @@
 gunicorn
 pathlib2
 pandas==1.0.1
-numpy==1.18.1
+numpy==1.22.0
 dash==1.11.0
 dash-core-components==1.9.1
 dash-daq==0.1.7
